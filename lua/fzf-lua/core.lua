@@ -674,7 +674,7 @@ M.build_fzf_cli = function(opts)
   -- build the cli args
   local cli_args = {}
   -- fzf-tmux args must be included first
-  if opts._is_fzf_tmux == 1 then
+  if opts._is_fzf_tmux == 1 and not vim.env.ZELLIJ then
     for k, v in pairs(opts.fzf_tmux_opts or {}) do
       table.insert(cli_args, k)
       if type(v) == "string" and #v > 0 then

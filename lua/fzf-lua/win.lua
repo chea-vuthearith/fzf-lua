@@ -508,7 +508,7 @@ function FzfWin:columns(no_fullscreen)
   -- in order to get an accurate alternate layout trigger that will also be consistent
   -- when starting with `winopts.fullscreen == true`
   local winopts = no_fullscreen and self._o.winopts or self.winopts
-  return self._o._is_fzf_tmux and self:tmux_columns()
+  return self._o._is_fzf_tmux and not vim.env.ZELLIJ and self:tmux_columns()
       or vim.is_callable(_G.fzf_tty_get_width) and _G.fzf_tty_get_width()
       or winopts.split and api.nvim_win_get_width(self.fzf_winid or 0)
       or self:normalize_size(winopts.width, vim.o.columns)
