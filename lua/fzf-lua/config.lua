@@ -873,7 +873,11 @@ function M.normalize_opts(opts, globals, __resume_key) ---@diagnostic disable
 
   -- Are we using fzf-tmux? if so get available columns
   opts._is_fzf_tmux = (function()
-    if not vim.env.TMUX then
+    -- Allow user override for non-tmux terminal multiplexers (e.g., Zellij)
+    if opts._is_fzf_tmux ~= nil and opts._is_fzf_tmux ~= false then
+      return opts._is_fzf_tmux
+    end
+    if not vim.env.TMUX and not vim.env.ZELLIJ then
       -- Could have adverse effects with skim (#1974)
       opts.fzf_opts["--tmux"] = nil
       return
